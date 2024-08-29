@@ -4,8 +4,10 @@ WORKDIR /home/docker/app
 
 RUN rm -rf .angular/cache
 
-RUN useradd -r -g users docker
-USER docker
+# npm install inside the docker
+ADD package.json /tmp/package.json
+RUN cd /tmp && npm install
+RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
 
 CMD ["npm", "start"]
 
